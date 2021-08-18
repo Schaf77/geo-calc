@@ -10,10 +10,14 @@ pi = 3.1415926535897932384626433832795028841971693993751058209749445923078164062
 
 def home():
     # creating widgets and place them in root
-    Button(root, text='circle', command=circle).grid(row=0, column=0)
-    Button(root, text='square', command=square).grid(row=0, column=2)
-    Button(root, text='rectangle', command=rectangle).grid(row=0, column=3)
-    Button(root, text='circular arcs', command=circular_arcs).grid(row=0, column=1)
+    Label(root, text='Shapes:').grid(row=0, column=0)
+    Button(root, text='circle', command=circle, padx=5).grid(row=1, column=0)
+    Button(root, text='square', command=square).grid(row=1, column=2)
+    Button(root, text='rectangle', command=rectangle).grid(row=1, column=3)
+    Button(root, text='circular arcs', command=circular_arcs).grid(row=1, column=1)
+    Label(root, text='Body:').grid(row=2, column=0)
+    Button(root, text='Cube', command=cube, padx=5).grid(row=3, column=0)
+    Button(root, text='Cuboid', command=cuboid, padx=13).grid(row=3, column=1)
 
 
 def circle():
@@ -63,7 +67,6 @@ def circle():
         entry_u.delete(0, END)
         entry_d.delete(0, END)
         entry_r.delete(0, END)
-
 
     def back():
         window_clear()
@@ -301,6 +304,142 @@ def circular_arcs():
     back.grid(row=8, column=0)
     calculate.grid(row=8, column=1)
     clear.grid(row=8, column=2)
+
+
+def cube():
+    window_clear()
+
+    def back():
+        window_clear()
+        home()
+
+    def clear_cube():
+        side_l_a_E.delete(0, END)
+        volume_E.delete(0, END)
+        edgelength_E.delete(0, END)
+
+    def calculate_cube():
+        a = side_l_a_E.get()
+        vol = volume_E.get()
+        edge = edgelength_E.get()
+
+        clear_cube()
+
+        try:
+            if a != '':
+                side_l_a_E.insert(0, a)
+                volume_E.insert(0, str(float(a) ** 3))
+                edgelength_E.insert(0, str(float(a) * 12))
+            elif vol != '':
+                volume_E.insert(0, vol)
+                side_l_a_E.insert(0, str(float(vol) ** (1. / 3.)))
+                edgelength_E.insert(0, str((float(vol) ** (1. / 3.) * 12)))
+            elif edge != '':
+                edgelength_E.insert(0, edge)
+                side_l_a_E.insert(0, str(float(edge) / 12))
+                volume_E.insert(0, str((float(edge) / 12) ** 3))
+            else:
+                warning = Button(root, text='please enter a number', fg='red', command=lambda: warning.grid_forget())
+                warning.grid(row=10, column=0, columnspan=3)
+        except ValueError:
+            warning = Button(root, text='please enter a number', fg='red', command=lambda: warning.grid_forget())
+            warning.grid(row=10, column=0, columnspan=3)
+
+    side_l_a = Label(root, text='side length (a)')
+    side_l_a_E = Entry(root)
+    volume = Label(root, text='volume (V)')
+    volume_E = Entry(root)
+    edgelength = Label(root, text='edge length')
+    edgelength_E = Entry(root)
+    calculate = Button(root, text='calculate', command=calculate_cube)
+    clear = Button(root, text='clear', command=clear_cube)
+    back = Button(root, text='<', command=back)
+
+    side_l_a.grid(row=0, column=0, columnspan=3)
+    side_l_a_E.grid(row=1, column=0, columnspan=3)
+    volume.grid(row=2, column=0, columnspan=3)
+    volume_E.grid(row=3, column=0, columnspan=3)
+    edgelength.grid(row=4, column=0, columnspan=3)
+    edgelength_E.grid(row=5, column=0, columnspan=3)
+    back.grid(row=6, column=0)
+    calculate.grid(row=6, column=1)
+    clear.grid(row=6, column=2)
+
+
+def cuboid():
+    window_clear()
+
+    def back():
+        window_clear()
+        home()
+
+    def clear_cuboid():
+        side_c_E.delete(0, END)
+        side_b_E.delete(0, END)
+        side_a_E.delete(0, END)
+        volume_E.delete(0, END)
+        edge_E.delete(0, END)
+
+    def calculate_cuboid():
+        a = side_a_E.get()
+        b = side_b_E.get()
+        c = side_c_E.get()
+        vol = volume_E.get()
+        edgec = edge_E.get()
+
+        if a != '' and b != '' and c != '':
+            side_a_E.insert(0, a)
+            side_b_E.insert(0, b)
+            side_c_E.insert(0, c)
+            volume_E.insert(0, str(float(a) * float(b) * float(c)))
+            edge_E.insert(0, str(float(a) + float(b) + float(c)))
+        elif vol != '' and b != '' and c != '':
+            side_a_E.insert(0, str(float(vol) / float(b) / float(c)))
+            side_b_E.insert(0, b)
+            side_c_E.insert(0, c)
+            edge_E.insert(0, str((float(vol) / float(b) / float(c)) + float(b) + float(c)))
+            volume_E.insert(0, vol)
+        elif vol != '' and a != '' and c != '':
+            side_a_E.insert(0, a)
+            side_b_E.insert(0, str(float(vol) / float(a) / float(c)))
+            side_c_E.insert(0, c)
+            volume_E.insert(0, vol)
+            edge_E.insert(0, str((float(vol) / float(a) / float(c)) + float(a) + float(c)))
+        elif vol != '' and a != '' and b != '':
+            side_a_E.insert(0, a)
+            side_b_E.insert(0, b)
+            side_c_E.insert(0, str(float(vol) / float(a) / float(b)))
+            volume_E.insert(0, vol)
+            edge_E.insert(0, str((float(vol) / float(a) / float(b)) + float(a) + float(c)))
+
+
+    side_a = Label(root, text='side length (a)')
+    side_a_E = Entry(root)
+    side_b = Label(root, text='side length (b)')
+    side_b_E = Entry(root)
+    side_c = Label(root, text='side length (c)')
+    side_c_E = Entry(root)
+    volume = Label(root, text='volume (V)')
+    volume_E = Entry(root)
+    edge = Label(root, text='edge length')
+    edge_E = Entry(root)
+    calculate = Button(root, text='calculate', command=calculate_cuboid)
+    clear = Button(root, text='clear', command=clear_cuboid)
+    back = Button(root, text='<', command=back)
+
+    side_a.grid(row=0, column=0, columnspan=3)
+    side_a_E.grid(row=1, column=0, columnspan=3)
+    side_b.grid(row=2, column=0, columnspan=3)
+    side_b_E.grid(row=3, column=0, columnspan=3)
+    side_c.grid(row=4, column=0, columnspan=3)
+    side_c_E.grid(row=5, column=0, columnspan=3)
+    volume.grid(row=6, column=0, columnspan=3)
+    volume_E.grid(row=7, column=0, columnspan=3)
+    edge.grid(row=8, column=0, columnspan=3)
+    edge_E.grid(row=9, column=0, columnspan=3)
+    back.grid(row=10, column=0)
+    calculate.grid(row=10, column=1)
+    clear.grid(row=10, column=2)
 
 
 home()
