@@ -24,9 +24,6 @@ def circle():
     window_clear()
     print('Debug: Circle function called')
 
-    is_on = False
-    on = PhotoImage(file='on.png')
-    off = PhotoImage(file='off.png')
 
     def calculate_circle():
         d = entry_d.get()
