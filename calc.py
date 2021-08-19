@@ -381,37 +381,45 @@ def cuboid():
         edge_E.delete(0, END)
 
     def calculate_cuboid():
+        edge_E.configure(None, state='normal')
         a = side_a_E.get()
         b = side_b_E.get()
         c = side_c_E.get()
         vol = volume_E.get()
         edgec = edge_E.get()
 
-        if a != '' and b != '' and c != '':
-            side_a_E.insert(0, a)
-            side_b_E.insert(0, b)
-            side_c_E.insert(0, c)
-            volume_E.insert(0, str(float(a) * float(b) * float(c)))
-            edge_E.insert(0, str(float(a) + float(b) + float(c)))
-        elif vol != '' and b != '' and c != '':
-            side_a_E.insert(0, str(float(vol) / float(b) / float(c)))
-            side_b_E.insert(0, b)
-            side_c_E.insert(0, c)
-            edge_E.insert(0, str((float(vol) / float(b) / float(c)) + float(b) + float(c)))
-            volume_E.insert(0, vol)
-        elif vol != '' and a != '' and c != '':
-            side_a_E.insert(0, a)
-            side_b_E.insert(0, str(float(vol) / float(a) / float(c)))
-            side_c_E.insert(0, c)
-            volume_E.insert(0, vol)
-            edge_E.insert(0, str((float(vol) / float(a) / float(c)) + float(a) + float(c)))
-        elif vol != '' and a != '' and b != '':
-            side_a_E.insert(0, a)
-            side_b_E.insert(0, b)
-            side_c_E.insert(0, str(float(vol) / float(a) / float(b)))
-            volume_E.insert(0, vol)
-            edge_E.insert(0, str((float(vol) / float(a) / float(b)) + float(a) + float(c)))
-
+        try:
+            if a != '' and b != '' and c != '':
+                side_a_E.insert(0, a)
+                side_b_E.insert(0, b)
+                side_c_E.insert(0, c)
+                volume_E.insert(0, str(float(a) * float(b) * float(c)))
+                edge_E.insert(0, str(float(a) + float(b) + float(c)))
+            elif vol != '' and b != '' and c != '':
+                side_a_E.insert(0, str(float(vol) / float(b) / float(c)))
+                side_b_E.insert(0, b)
+                side_c_E.insert(0, c)
+                edge_E.insert(0, str((float(vol) / float(b) / float(c)) + float(b) + float(c)))
+                volume_E.insert(0, vol)
+            elif vol != '' and a != '' and c != '':
+                side_a_E.insert(0, a)
+                side_b_E.insert(0, str(float(vol) / float(a) / float(c)))
+                side_c_E.insert(0, c)
+                volume_E.insert(0, vol)
+                edge_E.insert(0, str((float(vol) / float(a) / float(c)) + float(a) + float(c)))
+            elif vol != '' and a != '' and b != '':
+                side_a_E.insert(0, a)
+                side_b_E.insert(0, b)
+                side_c_E.insert(0, str(float(vol) / float(a) / float(b)))
+                volume_E.insert(0, vol)
+                edge_E.insert(0, str((float(vol) / float(a) / float(b)) + float(a) + float(c)))
+            else:
+                warning = Button(root, text='please enter a number', fg='red', command=lambda: warning.grid_forget())
+                warning.grid(row=10, column=0, columnspan=3)
+        except ValueError:
+            warning = Button(root, text='please enter a number', fg='red', command=lambda: warning.grid_forget())
+            warning.grid(row=10, column=0, columnspan=3)
+        edge_E.configure(None, state='readonly')
 
     side_a = Label(root, text='side length (a)')
     side_a_E = Entry(root)
@@ -422,7 +430,7 @@ def cuboid():
     volume = Label(root, text='volume (V)')
     volume_E = Entry(root)
     edge = Label(root, text='edge length')
-    edge_E = Entry(root)
+    edge_E = Entry(root, state='readonly')
     calculate = Button(root, text='calculate', command=calculate_cuboid)
     clear = Button(root, text='clear', command=clear_cuboid)
     back = Button(root, text='<', command=back)
